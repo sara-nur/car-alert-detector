@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Dashboard Icon Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-400: #94a3b8;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            
+            --blue-50: #eff6ff;
+            --blue-100: #dbeafe;
+            --blue-200: #bfdbfe;
+            --blue-300: #93c5fd;
+            --blue-400: #60a5fa;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            --blue-800: #1e40af;
+            --blue-900: #1e3a8a;
+            
+            --emerald-50: #ecfdf5;
+            --emerald-100: #d1fae5;
+            --emerald-500: #10b981;
+            --emerald-600: #059669;
+            --emerald-700: #047857;
+            
+            --amber-50: #fffbeb;
+            --amber-100: #fef3c7;
+            --amber-500: #f59e0b;
+            --amber-600: #d97706;
+            --amber-700: #b45309;
+            
+            --red-50: #fef2f2;
+            --red-100: #fee2e2;
+            --red-500: #ef4444;
+            --red-600: #dc2626;
+            --red-700: #b91c1c;
+            
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            --space-16: 4rem;
+            --space-20: 5rem;
+            --space-24: 6rem;
+            
+            --radius-md: 0.375rem;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --radius-2xl: 1rem;
+            --radius-3xl: 1.5rem;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--slate-900) 0%, var(--slate-800) 100%);
+            min-height: 100vh;
+            padding: var(--space-8);
+            line-height: 1.6;
+            color: var(--slate-100);
+            font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 72rem;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-8);
+        }
+
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-xl);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-2xl);
+            border-color: rgba(255, 255, 255, 0.16);
+        }
+
+        .card-header {
+            padding: var(--space-12);
+            text-align: center;
+        }
+
+        .card-content {
+            padding: var(--space-8);
+        }
+
+        .header-card {
+            background: var(--slate-800);
+            border: 1px solid var(--slate-700);
+            color: var(--slate-100);
+        }
+
+        .header-icon {
+            width: 4rem;
+            height: 4rem;
+            background: var(--slate-700);
+            border: 1px solid var(--slate-600);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-6);
+            font-size: 1.5rem;
+            color: var(--slate-300);
+        }
+
+        .header-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            color: var(--slate-100);
+            letter-spacing: -0.025em;
+        }
+
+        .header-subtitle {
+            font-size: 1.125rem;
+            font-weight: 400;
+            color: var(--slate-400);
+            max-width: 36rem;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        .upload-section {
+            border: 2px dashed var(--slate-600);
+            border-radius: var(--radius-xl);
+            padding: var(--space-16);
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .upload-section:hover {
+            border-color: var(--blue-500);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .upload-section.dragover {
+            border-color: var(--emerald-500);
+            background: rgba(16, 185, 129, 0.05);
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            width: 4rem;
+            height: 4rem;
+            background: var(--slate-700);
+            border: 1px solid var(--slate-600);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--space-6);
+            font-size: 1.5rem;
+            color: var(--slate-300);
+        }
+
+        .upload-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-3);
+            color: var(--slate-200);
+        }
+
+        .upload-description {
+            color: var(--slate-400);
+            margin-bottom: var(--space-8);
+            font-size: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-4) var(--space-8);
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background: var(--blue-600);
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-primary:hover {
+            background: var(--blue-700);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--slate-700);
+            color: var(--slate-200);
+            border: 1px solid var(--slate-600);
+        }
+
+        .btn-secondary:hover {
+            background: var(--slate-600);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-lg {
+            padding: var(--space-5) var(--space-10);
+            font-size: 1rem;
+        }
+
+        .upload-note {
+            margin-top: var(--space-6);
+            font-size: 0.75rem;
+            color: var(--slate-500);
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .loading-container {
+            text-align: center;
+            padding: var(--space-16);
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 3rem;
+            height: 3rem;
+            margin: 0 auto var(--space-8);
+        }
+
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 2px solid var(--slate-700);
+            border-top: 2px solid var(--blue-500);
+            border-radius: var(--radius-full);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-3);
+            color: var(--slate-200);
+        }
+
+        .loading-description {
+            color: var(--slate-400);
+            margin-bottom: var(--space-8);
+            font-size: 0.875rem;
+        }
+
+        .progress-container {
+            width: 16rem;
+            margin: 0 auto;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: var(--slate-700);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--blue-500);
+            border-radius: var(--radius-full);
+            animation: progress 2s ease-in-out infinite;
+        }
+
+        @keyframes progress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        .results-header {
+            background: var(--slate-800);
+            color: var(--slate-100);
+            padding: var(--space-8);
+            text-align: center;
+            border-bottom: 1px solid var(--slate-700);
+        }
+
+        .results-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+
+        .results-count {
+            color: var(--slate-400);
+            font-size: 0.875rem;
+        }
+
+        .image-container {
+            text-align: center;
+            padding: var(--space-8);
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--slate-700);
+        }
+
+        .uploaded-image {
+            max-width: 100%;
+            max-height: 24rem;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--slate-700);
+        }
+
+        .predictions-container {
+            padding: var(--space-8);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-6);
+        }
+
+        .predictions-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            color: var(--slate-200);
+        }
+
+        .prediction-item {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            border: 1px solid var(--slate-700);
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+            margin-bottom: var(--space-4);
+        }
+
+        .prediction-item:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--slate-600);
+        }
+
+        .prediction-item.warning {
+            border-left: 3px solid var(--red-500);
+        }
+
+        .prediction-item.info {
+            border-left: 3px solid var(--amber-500);
+        }
+
+        .prediction-item.success {
+            border-left: 3px solid var(--emerald-500);
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--space-4);
+            gap: var(--space-4);
+        }
+
+        .prediction-class {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--slate-200);
+            text-transform: capitalize;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .prediction-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .confidence-badge {
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .confidence-high {
+            background: var(--emerald-600);
+            color: white;
+        }
+
+        .confidence-medium {
+            background: var(--amber-600);
+            color: white;
+        }
+
+        .confidence-low {
+            background: var(--red-600);
+            color: white;
+        }
+
+        .prediction-description {
+            color: var(--slate-400);
+            line-height: 1.6;
+            font-size: 0.875rem;
+        }
+
+        .no-detections {
+            text-align: center;
+            padding: var(--space-12);
+            color: var(--slate-500);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--slate-700);
+        }
+
+        .no-detections-icon {
+            font-size: 2rem;
+            margin-bottom: var(--space-4);
+            opacity: 0.6;
+        }
+
+        .no-detections-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: var(--space-3);
+            color: var(--slate-300);
+        }
+
+        .alert {
+            padding: var(--space-6);
+            border-radius: var(--radius-xl);
+            border: 1px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-4);
+            backdrop-filter: blur(8px);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--red-600);
+            color: var(--slate-200);
+        }
+
+        .alert-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+            margin-top: var(--space-1);
+            font-size: 1rem;
+        }
+
+        .alert-content {
+            flex: 1;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .alert-actions {
+            margin-left: auto;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: var(--space-4);
+            }
+            
+            .container {
+                gap: var(--space-6);
+            }
+            
+            .card-header,
+            .card-content {
+                padding: var(--space-6);
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .upload-section {
+                padding: var(--space-12);
+            }
+            
+            .prediction-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-3);
+            }
+
+            .progress-container {
+                width: 12rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1.75rem;
+            }
+            
+            .upload-section {
+                padding: var(--space-8);
+            }
+
+            .btn-lg {
+                padding: var(--space-4) var(--space-6);
+                font-size: 0.875rem;
+            }
+        }
+
+        .btn:focus-visible,
+        .file-input:focus-visible + .btn {
+            outline: 2px solid var(--blue-500);
+            outline-offset: 2px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="card header-card">
+            <div class="card-header">
+                <div class="header-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 16H9m10 0h3m-3-6.5V16m0-6.5a2.5 2.5 0 0 0-2.5-2.5H6.5A2.5 2.5 0 0 0 4 9.5V16m15-6.5V7a1 1 0 0 0-1-1H6a1 1 0 0 0-1 1v2.5"/>
+                        <circle cx="7" cy="19" r="2"/>
+                        <circle cx="17" cy="19" r="2"/>
+                    </svg>
+                </div>
+                <h1 class="header-title">Dashboard Icon Detector</h1>
+                <p class="header-subtitle">Upload a photo of your car's dashboard to identify warning lights and get detailed explanations with AI-powered analysis</p>
+            </div>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="card" id="uploadCard">
+            <div class="card-content">
+                <div class="upload-section" id="uploadSection">
+                    <div class="upload-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                            <circle cx="12" cy="13" r="4"/>
+                        </svg>
+                    </div>
+                    <h3 class="upload-title">Upload Dashboard Image</h3>
+                    <p class="upload-description">Drag and drop an image here, or click to select from your device</p>
+                    
+                    <input type="file" id="fileInput" class="file-input" accept="image/*" aria-label="Upload dashboard image">
+                    <button class="btn btn-primary btn-lg" onclick="document.getElementById('fileInput').click()" aria-describedby="upload-note">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="7,10 12,15 17,10"/>
+                            <line x1="12" y1="15" x2="12" y2="3"/>
+                        </svg>
+                        Choose Image
+                    </button>
+                    
+                    <p class="upload-note" id="upload-note">
+                        JPG • PNG • GIF • BMP • WebP • Max 16MB
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card hidden" id="loadingCard">
+            <div class="card-content">
+                <div class="loading-container">
+                    <div class="spinner-container">
+                        <div class="spinner"></div>
+                    </div>
+                    <h3 class="loading-title">Analyzing Dashboard Image</h3>
+                    <p class="loading-description">Processing your image and identifying warning lights</p>
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card hidden" id="resultsCard">
+            <div class="results-header">
+                <h2 class="results-title">Detection Results</h2>
+                <p class="results-count" id="detectionCount"></p>
+            </div>
+            
+            <div class="image-container">
+                <img id="uploadedImage" class="uploaded-image" alt="Uploaded dashboard image">
+            </div>
+            
+            <div class="predictions-container">
+                <h3 class="predictions-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    Detected Warning Lights
+                </h3>
+                <div id="predictionsContainer">
+                </div>
+            </div>
+            
+            <div class="card-content text-center">
+                <button class="btn btn-secondary btn-lg" onclick="resetApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M8 16H3v5"/>
+                    </svg>
+                    Analyze Another Image
+                </button>
+            </div>
+        </div>
+
+        <div class="alert alert-error hidden" id="errorAlert" role="alert">
+            <span class="alert-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                    <path d="M12 9v4"/>
+                    <path d="M12 17h.01"/>
+                </svg>
+            </span>
+            <div class="alert-content">
+                <p id="errorMessage"></p>
+            </div>
+            <div class="alert-actions">
+                <button class="btn btn-secondary" onclick="resetApp()">Try Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const uploadSection = document.getElementById('uploadSection');
+        const uploadCard = document.getElementById('uploadCard');
+        const loadingCard = document.getElementById('loadingCard');
+        const resultsCard = document.getElementById('resultsCard');
+        const errorAlert = document.getElementById('errorAlert');
+
+        let dragCounter = 0;
+
+        uploadSection.addEventListener('dragenter', (e) => {
+            e.preventDefault();
+            dragCounter++;
+            uploadSection.classList.add('dragover');
+        });
+
+        uploadSection.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            dragCounter--;
+            if (dragCounter === 0) {
+                uploadSection.classList.remove('dragover');
+            }
+        });
+
+        uploadSection.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        });
+
+        uploadSection.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragCounter = 0;
+            uploadSection.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/bmp', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                showError('Please upload a valid image file (JPG, PNG, GIF, BMP, WebP)');
+                return;
+            }
+
+            if (file.size > 16 * 1024 * 1024) {
+                showError('File size too large. Please upload an image smaller than 16MB.');
+                return;
+            }
+
+            if (file.size < 1024) {
+                showError('File seems too small. Please upload a valid image file.');
+                return;
+            }
+
+            uploadImage(file);
+        }
+
+        function uploadImage(file) {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            showLoading();
+
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                hideLoading();
+                
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    showResults(data);
+                }
+            })
+            .catch(error => {
+                hideLoading();
+                console.error('Error:', error);
+                showError('Network error occurred. Please check your connection and try again.');
+            });
+        }
+
+        function showLoading() {
+            uploadCard.classList.add('hidden');
+            loadingCard.classList.remove('hidden');
+            resultsCard.classList.add('hidden');
+            errorAlert.classList.add('hidden');
+        }
+
+        function hideLoading() {
+            loadingCard.classList.add('hidden');
+            if (loadingTimeout) {
+                clearTimeout(loadingTimeout);
+                loadingTimeout = null;
+            }
+        }
+
+        function showResults(data) {
+            const uploadedImage = document.getElementById('uploadedImage');
+            const detectionCount = document.getElementById('detectionCount');
+            const predictionsContainer = document.getElementById('predictionsContainer');
+
+            try {
+                uploadedImage.src = 'data:image/jpeg;base64,' + data.image;
+                uploadedImage.onerror = () => {
+                    showError('Failed to display the processed image.');
+                };
+            } catch (error) {
+                showError('Error processing the image data.');
+                return;
+            }
+
+            const count = data.total_detections || 0;
+            detectionCount.textContent = count === 0 
+                ? 'No dashboard warnings detected' 
+                : `Found ${count} dashboard warning${count !== 1 ? 's' : ''}`;
+
+            predictionsContainer.innerHTML = '';
+
+            if (!data.predictions || data.predictions.length === 0) {
+                predictionsContainer.innerHTML = `
+                    <div class="no-detections">
+                        <div class="no-detections-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"/>
+                                <path d="m21 21-4.35-4.35"/>
+                            </svg>
+                        </div>
+                        <h3 class="no-detections-title">No Dashboard Warnings Detected</h3>
+                        <p>The image might not contain recognizable dashboard warning lights, or they might be too unclear to detect. Try uploading a clearer image with better lighting.</p>
+                    </div>
+                `;
+            } else {
+                data.predictions.forEach((prediction, index) => {
+                    const predictionElement = createPredictionElement(prediction);
+                    predictionsContainer.appendChild(predictionElement);
+                });
+            }
+
+            resultsCard.classList.remove('hidden');
+        }
+
+        function createPredictionElement(prediction) {
+            const div = document.createElement('div');
+            div.className = 'prediction-item';
+            
+            const criticalClasses = ['check_engine', 'oil_pressure', 'temperature', 'brake', 'airbag', 'engine'];
+            const warningClasses = ['battery', 'abs', 'traction_control', 'power_steering'];
+            const infoClasses = ['seatbelt', 'door_open', 'fuel', 'turn_signal', 'parking_brake'];
+            
+            if (criticalClasses.some(cls => prediction.class.toLowerCase().includes(cls))) {
+                div.classList.add('warning');
+            } else if (warningClasses.some(cls => prediction.class.toLowerCase().includes(cls))) {
+                div.classList.add('info');
+            } else {
+                div.classList.add('success');
+            }
+
+            let confidenceClass = 'confidence-low';
+            
+            if (prediction.confidence >= 85) {
+                confidenceClass = 'confidence-high';
+            } else if (prediction.confidence >= 65) {
+                confidenceClass = 'confidence-medium';
+            }
+
+            let warningIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg>`;
+            
+            if (criticalClasses.some(cls => prediction.class.toLowerCase().includes(cls))) {
+                warningIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`;
+            } else if (warningClasses.some(cls => prediction.class.toLowerCase().includes(cls))) {
+                warningIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>`;
+            } else if (infoClasses.some(cls => prediction.class.toLowerCase().includes(cls))) {
+                warningIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>`;
+            }
+
+            const formattedClass = prediction.class
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
+
+            div.innerHTML = `
+                <div class="prediction-header">
+                    <div class="prediction-class">
+                        <span class="prediction-icon">${warningIcon}</span>
+                        ${formattedClass}
+                    </div>
+                    <div class="confidence-badge ${confidenceClass}">
+                        ${Math.round(prediction.confidence)}%
+                    </div>
+                </div>
+                <div class="prediction-description">${prediction.description || 'No description available for this warning light. Please consult your vehicle manual or a qualified mechanic for more information.'}</div>
+            `;
+
+            return div;
+        }
+
+        function showError(message) {
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = message;
+            
+            uploadCard.classList.remove('hidden');
+            loadingCard.classList.add('hidden');
+            resultsCard.classList.add('hidden');
+            errorAlert.classList.remove('hidden');
+            
+            errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function resetApp() {
+            uploadCard.classList.remove('hidden');
+            loadingCard.classList.add('hidden');
+            resultsCard.classList.add('hidden');
+            errorAlert.classList.add('hidden');
+            fileInput.value = '';
+            dragCounter = 0;
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                resetApp();
+            }
+        });
+
+        let loadingTimeout;
+        
+        function showLoading() {
+            uploadCard.classList.add('hidden');
+            loadingCard.classList.remove('hidden');
+            resultsCard.classList.add('hidden');
+            errorAlert.classList.add('hidden');
+            
+            loadingTimeout = setTimeout(() => {
+                hideLoading();
+                showError('Request timed out. Please try again with a smaller image or check your connection.');
+            }, 45000);
+        }
+    </script>
+</body>
+</html>

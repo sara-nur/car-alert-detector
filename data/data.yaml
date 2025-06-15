@@ -1,0 +1,13 @@
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 10
+names: ['Anti Lock Braking System', 'Braking System Issue', 'Charging System Issue', 'Check Engine', 'Electronic Stability Problem -ESP-', 'Engine Overheating Warning Light', 'Low Engine Oil Warning Light', 'Low Tire Pressure Warning Light', 'Master warning light', 'SRS-Airbag']
+
+roboflow:
+  workspace: rita-3nqih
+  project: car-dashboard-icons-lxbfw
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/rita-3nqih/car-dashboard-icons-lxbfw/dataset/1
