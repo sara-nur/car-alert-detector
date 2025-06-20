@@ -44,22 +44,17 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def get_class_descriptions():
-    """
-    Map class names to user-friendly descriptions
-    Update this based on your actual class names from data.yaml
-    """
     descriptions = {
-        'check_engine': 'Check Engine Light - Your engine needs attention. Check with a mechanic soon.',
-        'oil_pressure': 'Oil Pressure Warning - Low oil pressure detected. Stop driving immediately!',
-        'battery': 'Battery Warning - Charging system problem. Battery may be failing.',
-        'temperature': 'Engine Temperature Warning - Engine is overheating. Stop and let cool down.',
-        'abs': 'ABS Light - Anti-lock Braking System issue. Brakes still work but ABS may not.',
-        'airbag': 'Airbag Warning - Airbag system malfunction. Safety feature may not work.',
-        'seatbelt': 'Seatbelt Reminder - Please fasten your seatbelt for safety.',
-        'fuel': 'Low Fuel Warning - Fuel level is low. Refuel soon.',
-        'door_open': 'Door Ajar - One or more doors are not properly closed.',
-        'brake': 'Brake System Warning - Brake system issue detected. Check immediately!',
-        # Add more classes in the future
+        'Anti Lock Braking System': 'ABS Light - Anti-lock Braking System issue. Brakes still work but ABS may not.',
+        'Braking System Issue': 'Brake System Warning - Brake system issue detected. Check immediately!',
+        'Charging System Issue': 'Battery Warning - Charging system problem. Battery may be failing.',
+        'Check Engine': 'Check Engine Light - Your engine needs attention. Check with a mechanic soon.',
+        'Electronic Stability Problem -ESP-': 'Electronic Stability Control issue. Your car may lose grip or traction control.',
+        'Engine Overheating Warning Light': 'Engine Temperature Warning - Engine is overheating. Stop and let cool down.',
+        'Low Engine Oil Warning Light': 'Oil Pressure Warning - Low oil pressure detected. Stop driving immediately!',
+        'Low Tire Pressure Warning Light': 'Low Tire Pressure - Inflate tires to recommended pressure.',
+        'Master warning light': 'Master Warning Light - A general warning has been triggered. Check the vehicle’s system.',
+        'SRS-Airbag': 'Airbag Warning - Airbag system malfunction. Safety feature may not work.'
     }
     return descriptions
 
